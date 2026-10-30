@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Форточка — YouTube и Telegram снова как раньше</title>
+<meta name="description" content="Одно приложение на телефоне, подключение за 2 минуты. 3 дня бесплатно, дальше от 199 ₽ в месяц.">
+<meta name="theme-color" content="#F6F6F3">
+<meta property="og:title" content="Форточка — YouTube и Telegram снова как раньше"><meta property="og:description" content="Подключение за 2 минуты. 3 дня бесплатно."><meta property="og:locale" content="ru_RU">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='6' y='6' width='52' height='52' rx='12' fill='%23fff' stroke='%233B5BFF' stroke-width='5'/><rect x='14' y='14' width='16' height='16' rx='4' fill='%23BFD3FF'/><rect x='34' y='14' width='16' height='16' rx='4' fill='%23BFD3FF'/><circle cx='22' cy='23' r='3.5' fill='%23111214'/><circle cx='42' cy='23' r='3.5' fill='%23111214'/><rect x='14' y='36' width='36' height='14' rx='4' fill='%233B5BFF'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
+<style>
+:root{--ground:#F6F6F3;--grid:#DEDED8;--card:#fff;--ink:#111214;--ink2:rgba(17,18,20,.62);--hair:rgba(17,18,20,.08);--cobalt:#3B5BFF;--cobalt-deep:#2A44D6;--green:#15935A;
+  --night:#0E1014;--night-ink:#F4F4F2;--night-ink2:rgba(244,244,242,.68);--shadow:0 24px 60px rgba(17,18,20,.12),0 0 0 1px rgba(0,0,0,.06);
+  --sans:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--serif:"Cormorant Garamond",Georgia,serif;--out:cubic-bezier(.16,1,.3,1);--back:cubic-bezier(.34,1.8,.64,1)}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font:500 17px/1.55 var(--sans);background:radial-gradient(circle,var(--grid) 1.2px,transparent 1.4px) 0 0/28px 28px,var(--ground);overflow-x:hidden}
+::selection{background:var(--cobalt);color:#fff}
+a{color:var(--cobalt);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px;border-radius:8px}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px}
+header{display:flex;align-items:center;gap:10px;padding:16px 0 0;font:800 18px/1 var(--sans);letter-spacing:-.02em}
+header svg{width:30px;height:30px}
+.hero{position:relative;padding:22px 0 8px}
+h1{font:800 clamp(36px,10vw,60px)/1.02 var(--sans);letter-spacing:-.035em;margin:0 84px 14px 0;text-wrap:balance}
+h1 em{font:600 italic 1.08em/1 var(--serif);color:var(--cobalt);letter-spacing:0}
+.lede{margin:0 0 20px;color:var(--ink2);max-width:40ch}
+.pal{position:absolute;top:14px;right:-4px;width:84px;height:84px;filter:drop-shadow(0 14px 18px rgba(17,18,20,.18))}
+.pal .pupil{transition:transform .35s var(--out)}
+.pal .lid{transform:scaleY(0);transform-origin:50% 0;transform-box:fill-box}
+.pal.blink .lid{animation:blink .16s}
+.pal .sash{transform-origin:50% 100%;transform-box:fill-box;transition:transform .32s var(--back)}
+.pal.open .sash{transform:scaleY(.42)}
+.cta{display:flex;align-items:center;justify-content:center;min-height:58px;padding:14px 20px;border-radius:18px;background:var(--cobalt);color:#fff;text-decoration:none;font:800 19px/1.2 var(--sans);letter-spacing:-.01em;box-shadow:0 12px 26px rgba(17,18,20,.22),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .18s var(--out),background .18s}
+.cta:hover{background:var(--cobalt-deep)}.cta:active{transform:translateY(2px) scale(.99)}
+.cta-note{text-align:center;font-size:14px;color:var(--ink2);margin:10px 0 0}
+section{margin-top:44px}
+h2{font:800 clamp(26px,7vw,36px)/1.08 var(--sans);letter-spacing:-.03em;margin:0 0 16px}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;position:relative;background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:18px 18px 18px 64px;margin:0 0 12px}
+.steps li::before{content:counter(s);position:absolute;left:18px;top:18px;width:32px;height:32px;border-radius:50%;background:var(--cobalt);color:#fff;display:grid;place-items:center;font:800 16px/1 var(--sans)}
+.steps b{display:block;font-size:18px;letter-spacing:-.01em;margin-bottom:2px}
+.steps p{margin:0;color:var(--ink2);font-size:15px}
+.steps a.btn2{display:inline-block;margin-top:10px;padding:9px 14px;border-radius:12px;border:1.5px solid var(--cobalt);color:var(--cobalt);text-decoration:none;font-weight:800;font-size:15px}
+.price{background:var(--night);color:var(--night-ink);border-radius:28px;padding:22px 20px;box-shadow:0 30px 70px rgba(14,16,20,.28)}
+.price h2{margin-bottom:6px}
+.price .small{color:var(--night-ink2);font-size:15px;margin:0 0 16px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan{border:1px solid rgba(244,244,242,.14);border-radius:18px;padding:12px 10px;text-align:center}
+.plan.best{border-color:var(--cobalt);background:rgba(59,91,255,.14)}
+.plan .p{font:800 22px/1.1 var(--sans);letter-spacing:-.02em}
+.plan .t{font-size:13px;color:var(--night-ink2)}
+.plan .tag{display:inline-block;margin-top:6px;font-size:11px;font-weight:800;color:#fff;background:var(--cobalt);border-radius:999px;padding:2px 8px}
+.price ul{margin:16px 0 18px;padding:0;list-style:none;font-size:15px}
+.price li{padding-left:24px;position:relative;margin:6px 0}
+.price li::before{content:"";position:absolute;left:2px;top:7px;width:12px;height:7px;border-left:2.5px solid #3DD68C;border-bottom:2.5px solid #3DD68C;transform:rotate(-45deg)}
+.price .cta{box-shadow:none}
+details{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:0 18px;margin:0 0 10px}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 0;font-weight:700}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg) translate(-2px,-2px);transition:transform .25s var(--out)}
+details[open]>summary::after{transform:rotate(225deg) translate(-2px,-2px)}
+details p{margin:0;padding:0 0 16px;color:var(--ink2);font-size:16px}
+footer{margin:48px 0 0;padding:20px 0 34px;border-top:1px solid var(--hair);font-size:13px;color:var(--ink2)}
+footer p{margin:0 0 8px}
+@media (prefers-reduced-motion:no-preference){
+  h1,.lede{animation:rise .7s var(--out) both}.lede{animation-delay:.12s}
+  .hero .cta{animation:rise .7s var(--out) .22s both}
+  .pal{animation:peek .8s var(--back) .35s both}
+  .steps li{animation:rise .6s var(--out) both;animation-timeline:view();animation-range:entry 0% entry 60%}
+}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}}
+@keyframes peek{from{opacity:0;transform:translateY(30px) rotate(10deg) scale(.6)}}
+@keyframes blink{50%{transform:scaleY(1)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="12" fill="#fff" stroke="#3B5BFF" stroke-width="5"/><rect x="14" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="34" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="14" y="36" width="36" height="14" rx="4" fill="#3B5BFF"/></svg>Форточка</header>
+<main>
+<div class="hero">
+<svg class="pal" viewBox="0 0 120 120" aria-hidden="true">
+<defs><linearGradient id="gf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E9EDF8"/></linearGradient><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DCE8FF"/><stop offset="1" stop-color="#A9C2FF"/></linearGradient></defs>
+<rect x="8" y="8" width="104" height="104" rx="22" fill="url(#gf)" stroke="#3B5BFF" stroke-width="5"/>
+<g><rect x="20" y="20" width="36" height="38" rx="9" fill="url(#gg)"/><circle cx="38" cy="40" r="11" fill="#fff"/><g class="pupil"><circle cx="38" cy="41" r="5.5" fill="#111214"/><circle cx="40" cy="38.8" r="1.7" fill="#fff"/></g><rect class="lid" x="20" y="20" width="36" height="38" rx="9" fill="#C9D7FF"/></g>
+<g><rect x="64" y="20" width="36" height="38" rx="9" fill="url(#gg)"/><circle cx="82" cy="40" r="11" fill="#fff"/><g class="pupil"><circle cx="82" cy="41" r="5.5" fill="#111214"/><circle cx="84" cy="38.8" r="1.7" fill="#fff"/></g><rect class="lid" x="64" y="20" width="36" height="38" rx="9" fill="#C9D7FF"/></g>
+<rect x="20" y="66" width="80" height="34" rx="9" fill="#1A2350"/><rect class="sash" x="20" y="66" width="80" height="34" rx="9" fill="url(#gg)" stroke="#fff" stroke-width="3"/>
+</svg>
+<h1>YouTube и Telegram <em>снова</em> как раньше</h1>
+<p class="lede">Одно приложение на телефоне, подключение за 2 минуты. Первые 3 дня — бесплатно, карта не нужна.</p>
+<a class="cta" data-go href="https://app.188-227-107-27.sslip.io:8443/login">Попробовать 3 дня бесплатно</a>
+<p class="cta-note">Без Telegram: в кабинете нажмите «Регистрация» под «Войти по Email»</p>
+</div>
+
+<section>
+<h2>Как подключить</h2>
+<ol class="steps">
+<li><b>Установите Happ</b><p>Бесплатное приложение из Play Маркета — через него работает Форточка.</p><a class="btn2" href="https://play.google.com/store/apps/details?id=com.happproxy">Открыть в Play Маркете</a></li>
+<li><b>Зарегистрируйтесь по почте</b><p>Почта и пароль — и у вас сразу 3 дня бесплатно.</p></li>
+<li><b>Нажмите «Подключиться»</b><p>В личном кабинете. Happ откроется сам, останется включить его кнопкой.</p></li>
+</ol>
+</section>
+
+<section class="price">
+<h2>Сколько стоит</h2>
+<p class="small">После бесплатных 3 дней — любой срок на выбор.</p>
+<div class="plans">
+<div class="plan"><div class="p">199 ₽</div><div class="t">месяц</div></div>
+<div class="plan"><div class="p">499 ₽</div><div class="t">3 месяца</div></div>
+<div class="plan best"><div class="p">1690 ₽</div><div class="t">год</div><span class="tag">141 ₽ / мес</span></div>
+</div>
+<ul><li>До 3 устройств: телефон, планшет, компьютер</li><li>Трафик без ограничений</li><li>Оплата по СБП</li></ul>
+<a class="cta" data-go href="https://app.188-227-107-27.sslip.io:8443/login">Попробовать бесплатно</a>
+</section>
+
+<section>
+<h2>Вопросы</h2>
+<details><summary>Нужен ли Telegram?</summary><p>Нет. Регистрация по почте, всё управление — в личном кабинете в браузере.</p></details>
+<details><summary>Работает на iPhone?</summary><p>Да, через приложение Karing из App Store. Шаги те же: зарегистрироваться и нажать «Подключиться».</p></details>
+<details><summary>Не получается подключить</summary><p>Напишите на parawor1d55@gmail.com: какой телефон и что видите на экране. Поможем.</p></details>
+</section>
+</main>
+<footer>
+<p><a href="https://app.188-227-107-27.sslip.io:8443/offer">Оферта</a> · <a href="https://app.188-227-107-27.sslip.io:8443/privacy">Политика конфиденциальности</a></p>
+<p>Поддержка: parawor1d55@gmail.com</p>
+</footer>
+</div>
+<script>
+(()=>{
+// метка источника: ?c=vk на этой странице → ?campaign=vk в кабинете (видно в отчёте Добби); по умолчанию site
+const c=(new URLSearchParams(location.search).get("c")||"site").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,64)||"site";
+document.querySelectorAll("a[data-go]").forEach(a=>{const u=new URL(a.href);u.searchParams.set("campaign",c);a.href=u});
+const pal=document.querySelector(".pal");if(!pal||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+const pupils=pal.querySelectorAll(".pupil"),look=(x,y)=>pupils.forEach(p=>p.style.transform=`translate(${x}px,${y}px)`);
+const blink=()=>{pal.classList.add("blink");setTimeout(()=>pal.classList.remove("blink"),170);setTimeout(blink,3000+Math.random()*2000)};
+setTimeout(blink,1600);setTimeout(()=>{look(-3,4);pal.classList.add("open");setTimeout(()=>pal.classList.remove("open"),700)},1300);
+addEventListener("pointermove",e=>{const r=pal.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),d=Math.hypot(dx,dy)||1;look(dx/d*4,dy/d*4)},{passive:true});
+})();
+</script>
+</body>
+</html>
