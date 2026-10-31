@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Подключение за 3 шага — Форточка</title>
+<meta name="description" content="Установите приложение, зарегистрируйтесь, добавьте подписку. Первые 3 дня бесплатно.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F6F6F3" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#0E1014" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://netfortochka.ru/">
+<script>document.documentElement.className+=" js"</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='6' y='6' width='52' height='52' rx='12' fill='%23fff' stroke='%233B5BFF' stroke-width='5'/><rect x='14' y='14' width='16' height='16' rx='4' fill='%23BFD3FF'/><rect x='34' y='14' width='16' height='16' rx='4' fill='%23BFD3FF'/><rect x='14' y='36' width='36' height='14' rx='4' fill='%233B5BFF'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Cormorant+Garamond:ital,wght@1,600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --ground:#F6F6F3;--grid:#DEDED8;--card:#fff;--ink:#111214;--ink2:rgba(17,18,20,.62);--hair:rgba(17,18,20,.08);
+  --cobalt:#3B5BFF;--cobalt-deep:#2A44D6;--glass:#BFD3FF;--red:#E5484D;--green:#15935A;--green-dot:#22B573;
+  --night:#0E1014;--night-card:#171A21;--night-ink:#F4F4F2;--night-ink2:rgba(244,244,242,.66);--night-hair:rgba(244,244,242,.1);
+  --blob1:#DCE4FF;--blob2:#FBE3E0;
+  --shadow:0 24px 60px rgba(17,18,20,.12),0 0 0 1px rgba(0,0,0,.06);
+  --sans:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--accent-serif:"Cormorant Garamond",Georgia,serif;--mono:"JetBrains Mono",ui-monospace,monospace;
+  --out:cubic-bezier(.16,1,.3,1);--back:cubic-bezier(.34,1.8,.64,1);--inout:cubic-bezier(.65,0,.35,1);
+}
+@media (prefers-color-scheme:dark){:root{
+  --ground:#0E1014;--grid:#1C1F26;--card:#171A21;--ink:#F4F4F2;--ink2:rgba(244,244,242,.64);--hair:rgba(244,244,242,.09);
+  --glass:#2B3A66;--red:#FF6B6F;--green:#3DD68C;--green-dot:#3DD68C;--blob1:#17204a;--blob2:#3a1d22;
+  --night:#141A2E;--night-card:#0E1220;--shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06);
+}
+.night{box-shadow:0 0 0 1px rgba(124,146,255,.22),0 30px 70px rgba(0,0,0,.45)}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scrollbar-color:var(--cobalt) transparent}
+body{margin:0;color:var(--ink);font:500 17px/1.55 var(--sans);font-variant-numeric:tabular-nums;caret-color:var(--cobalt);
+  background:radial-gradient(circle,var(--grid) 1.2px,transparent 1.4px) 0 0/28px 28px,var(--ground);overflow-x:hidden}
+::selection{background:var(--cobalt);color:#fff}
+a{color:var(--cobalt);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px;border-radius:6px}
+
+/* живой фон: два размытых пятна дрейфуют */
+.blobs{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.blobs i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(60px);opacity:.6}
+.blobs i:first-child{background:var(--blob1);top:-38vmax;right:-30vmax}
+.blobs i:last-child{background:var(--blob2);bottom:-40vmax;left:-34vmax}
+
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0 6px;font:500 12px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.bar .site{color:var(--ink);display:inline-flex;align-items:center;gap:8px}
+.logo{width:22px;height:22px;flex:none}
+.live{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green-dot)}
+
+h1{font:800 clamp(34px,9.4vw,64px)/1.02 var(--sans);letter-spacing:-.035em;margin:12px 0 16px;text-wrap:balance}
+h1 .w{display:inline-block}
+
+/* табло */
+.board{background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:6px 0 4px;margin:0}
+.sum{font:800 18px/1.25 var(--sans);letter-spacing:-.01em;padding:12px 18px 8px;margin:0;border-bottom:1px solid var(--hair)}
+.sum em{font:600 italic 1.45em/1 var(--accent-serif);color:var(--red);letter-spacing:0;margin-right:.12em}
+.svcs{list-style:none;margin:0;padding:0}
+.svc{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:12px;padding:7px 18px;border-bottom:1px solid var(--hair)}
+.svc:last-child{border-bottom:0}
+.ico{width:32px;height:32px;border-radius:10px}
+.nm h3{font:700 16px/1.2 var(--sans);margin:0;letter-spacing:-.01em}
+.star{color:inherit;text-decoration:none}
+.st{display:block;font-size:13px;font-weight:700;line-height:1.3}
+.svc.bad .st{color:var(--red)}.svc.ok .st{color:var(--green)}
+.dots{display:grid;grid-template-columns:repeat(7,7px);gap:4px}
+.dot{width:7px;height:7px;border-radius:2px;background:var(--red);opacity:.9}.dot.ok{background:var(--green-dot)}
+.board-note{font-size:12px;color:var(--ink2);margin:0;padding:8px 18px 10px;border-top:1px solid var(--hair)}
+
+/* решение: тёмная сцена */
+.night{position:relative;margin:28px 0 0;padding:20px 18px 16px;border-radius:28px;background:var(--night);color:var(--night-ink);box-shadow:0 30px 70px rgba(14,16,20,.28);overflow:visible;isolation:isolate}
+.night:not(:has(.btn)){display:none}
+.night::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;background:radial-gradient(120% 80% at 85% 0%,rgba(59,91,255,.32),transparent 60%),radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),radial-gradient(1px 1px at 70% 70%,rgba(255,255,255,.35),transparent),radial-gradient(1.5px 1.5px at 40% 85%,rgba(255,255,255,.3),transparent)}
+.dust{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none;z-index:-1}
+.dust i{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.35}
+.night h2{font:800 clamp(24px,6.4vw,36px)/1.1 var(--sans);letter-spacing:-.03em;margin:0 88px 0 0}
+.night .btn{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;margin:14px 0 12px;padding:14px 18px;border-radius:18px;background:var(--cobalt);color:#fff;text-decoration:none;font:800 18px/1.2 var(--sans);letter-spacing:-.01em;
+  box-shadow:0 10px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);transition:transform .18s var(--out),box-shadow .18s var(--out),background .18s}
+.night .btn:hover{background:var(--cobalt-deep)}
+.night .btn:active{transform:translateY(2px) scale(.99);box-shadow:0 4px 10px rgba(0,0,0,.35)}
+.night .btn:focus-visible{outline-color:#fff}
+.night .small{color:var(--night-ink2);font-size:15px;margin:0}
+
+/* талисман — окно, без имени */
+.pal{position:absolute;top:-50px;right:10px;width:96px;height:96px;filter:drop-shadow(0 14px 18px rgba(0,0,0,.35));pointer-events:none}
+.pal .pupil{transition:transform .35s var(--out)}
+.pal .lid{transform:scaleY(0);transform-origin:50% 0;transform-box:fill-box}
+.pal.blink .lid{animation:blink .16s var(--inout)}
+.pal .sash{transform-origin:50% 100%;transform-box:fill-box;transition:transform .32s var(--back)}
+.pal.talk .sash,.pal.happy .sash{transform:scaleY(.42)}
+.pal .brow{transform-box:fill-box;transform-origin:50% 50%;transition:transform .3s var(--out)}
+.pal.sad .brow.l{transform:rotate(-14deg) translateY(1px)}.pal.sad .brow.r{transform:rotate(14deg) translateY(1px)}
+.pal.happy .brow.l,.pal.happy .brow.r{transform:translateY(-3px)}
+
+/* инструкция: единственная последовательность на странице, поэтому шаги пронумерованы */
+.install{margin-top:40px}
+.install h2,.news h2,.faq h2{font:800 clamp(24px,6.4vw,32px)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 14px}
+.how{color:var(--ink2);margin:0 0 14px;font-size:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}
+.tabs button{font:700 14px/1 var(--sans);border:1px solid var(--hair);background:var(--card);color:var(--ink);border-radius:999px;padding:11px 16px;min-height:44px;cursor:pointer;transition:background .15s,color .15s}
+.tabs button[aria-selected=true]{background:var(--cobalt);border-color:var(--cobalt);color:#fff}
+.js .plat:not(.on){display:none}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;position:relative;background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:16px 18px 14px 62px;margin:0 0 12px}
+.steps li::before{content:counter(s);position:absolute;left:16px;top:16px;width:32px;height:32px;border-radius:50%;background:var(--cobalt);color:#fff;display:grid;place-items:center;font:800 15px/1 var(--sans)}
+.steps b{display:block;font-size:17px;margin-bottom:2px;letter-spacing:-.01em}
+.steps p{margin:0 0 8px;color:var(--ink2);font-size:15px}
+.dl{display:inline-block;margin:2px 8px 6px 0;padding:10px 14px;border-radius:12px;border:1.5px solid var(--cobalt);color:var(--cobalt);text-decoration:none;font-weight:800;font-size:14px}
+.steps code{display:block;background:var(--ground);border:1px solid var(--hair);border-radius:10px;padding:9px 10px;margin:4px 0 8px;font:500 13px/1.4 var(--mono);overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:var(--ink)}
+.help{color:var(--ink2);font-size:15px;margin:4px 0 0}
+
+/* новости и вопросы — светлая сцена снова */
+.news,.faq{margin-top:40px}
+@media (prefers-color-scheme:dark){.dl{color:#9db0ff;border-color:#9db0ff}.tabs button[aria-selected=true]{background:#3B5BFF}}
+.news h2,.faq h2{font:800 clamp(24px,6.4vw,32px)/1.1 var(--sans);letter-spacing:-.03em;margin:0 0 14px}
+.news article{background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:16px 18px;margin:0 0 12px}
+.news h3{font:700 17px/1.3 var(--sans);margin:0 0 6px;letter-spacing:-.01em}
+.news h3 a{color:var(--ink);text-decoration:none}
+.news h3 a:hover{color:var(--cobalt)}
+.news article p{margin:0 0 6px;font-size:15px;color:var(--ink2)}
+.news article p.small{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;margin:0}
+.news>p.small{font-size:13px;color:var(--ink2)}
+.faq details{background:var(--card);border-radius:20px;box-shadow:var(--shadow);padding:0 18px;margin:0 0 10px}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 0;font-weight:700}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg) translate(-2px,-2px);transition:transform .25s var(--out)}
+details[open]>summary::after{transform:rotate(225deg) translate(-2px,-2px)}
+.faq details p{margin:0;padding:0 0 16px;color:var(--ink2);font-size:16px;max-width:65ch}
+
+footer{margin:44px 0 0;padding:22px 0 34px;border-top:1px solid var(--hair);font-size:13px;color:var(--ink2)}
+footer p{margin:0 0 8px;max-width:70ch}
+
+/* один вход-сцена + тихий фон; без анимаций — всё сразу на месте */
+@media (prefers-reduced-motion:no-preference){
+  .blobs i:first-child{animation:drift1 26s var(--inout) infinite alternate}
+  .blobs i:last-child{animation:drift2 32s var(--inout) infinite alternate}
+  .bar{animation:rise .5s var(--out) both}
+  h1 .w{animation:word .7s var(--out) both;animation-delay:calc(80ms + var(--k) * 60ms)}
+  .board{animation:card .8s var(--out) .38s both}
+  .svc{animation:rise .55s var(--out) both;animation-delay:calc(560ms + var(--r) * 70ms)}
+  .dot{animation:pop .3s var(--back) both;animation-delay:calc(760ms + var(--i,0) * 18ms)}
+  .night{animation:night .9s var(--out) .78s both}
+  .pal{animation:peek .8s var(--back) 1.2s both}
+  .dust i{animation:float 9s var(--inout) infinite alternate}
+  details[open]>:not(summary){animation:rise .3s var(--out)}
+}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes word{from{opacity:0;transform:translateY(.45em);filter:blur(8px)}}
+@keyframes card{from{opacity:0;transform:translateY(28px) scale(.97)}}
+@keyframes night{from{opacity:0;transform:translateY(34px);filter:blur(6px)}}
+@keyframes pop{from{opacity:0;transform:scale(.2)}}
+@keyframes peek{from{opacity:0;transform:translateY(46px) rotate(8deg) scale(.6)}}
+@keyframes blink{50%{transform:scaleY(1)}}
+@keyframes drift1{to{transform:translate(-12vmax,10vmax) scale(1.08)}}
+@keyframes drift2{to{transform:translate(10vmax,-8vmax) scale(.94)}}
+@keyframes float{to{transform:translate(14px,-22px);opacity:.1}}
+
+/* шаги подключения */
+[hidden]{display:none!important}
+.start h1{margin:10px 0 14px}
+.wiz{list-style:none;margin:0;padding:0}
+.wiz>li{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:18px 18px 16px;margin:0 0 14px;transition:opacity .25s var(--out)}
+.wiz h2{display:flex;align-items:center;gap:12px;font:800 20px/1.2 var(--sans);letter-spacing:-.02em;margin:0 0 10px}
+.wiz .n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--cobalt);color:#fff;display:grid;place-items:center;font:800 15px/1 var(--sans)}
+.wiz>li.done .n{background:var(--green)}
+.wiz>li.locked{opacity:.55}
+.wiz>li.locked a,.wiz>li.locked button{pointer-events:none}
+.wiz p{margin:0 0 10px;color:var(--ink2);font-size:15px}
+.wiz .steps{margin:0}
+.wiz .steps li{background:none;box-shadow:none;border-radius:0;padding:0;margin:0 0 6px}
+.wiz .steps li::before{display:none}
+.only-install .steps li:not(:first-child),.only-manual .steps li:first-child{display:none}
+.only-install .steps li b{display:none}
+.only-manual .steps li{margin-bottom:12px}
+.back{display:flex;gap:12px;align-items:center;margin:6px 0 14px;padding:12px 14px;border-radius:16px;background:rgba(59,91,255,.09)}
+.back svg{flex:none;width:26px;height:26px;color:var(--cobalt)}
+.back b{display:block;font-size:16px;line-height:1.3;color:var(--ink);letter-spacing:-.01em}
+.back span{display:block;font-size:14px;color:var(--ink2);margin-top:2px}
+.go{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;padding:13px 16px;border-radius:16px;border:0;background:var(--cobalt);color:#fff;text-decoration:none;font:800 17px/1.2 var(--sans);letter-spacing:-.01em;cursor:pointer;box-shadow:0 8px 20px rgba(59,91,255,.28);transition:background .18s,transform .18s var(--out)}
+.go:hover{background:var(--cobalt-deep)}.go:active{transform:translateY(2px)}
+.go.quiet{background:transparent;color:var(--cobalt);box-shadow:inset 0 0 0 1.5px var(--cobalt);margin-top:10px}
+.go.ready{box-shadow:0 0 0 4px rgba(59,91,255,.22),0 8px 20px rgba(59,91,255,.28)}
+.wiz .welcome{margin:0 0 12px;padding:10px 14px;border-radius:14px;background:rgba(21,147,90,.12);color:var(--ink);font-weight:700;font-size:15px}
+.welcome[hidden]{display:none}
+.relink{background:none;border:0;padding:6px 0 0;color:var(--ink2);font:600 14px/1.3 var(--sans);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.wiz details summary{padding:0;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.wiz details{border:0;padding:0}
+.wiz details[open] summary{margin-bottom:12px}
+@media (prefers-color-scheme:dark){.go.quiet{color:#9db0ff;box-shadow:inset 0 0 0 1.5px #9db0ff}.back svg{color:#9db0ff}}
+</style>
+</head>
+<body class="start">
+<div class="blobs" aria-hidden="true"><i></i><i></i></div>
+<div class="wrap">
+<header class="bar"><a class="site" href="https://netfortochka.ru/" style="text-decoration:none"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="12" fill="#fff" stroke="#3B5BFF" stroke-width="5"/><rect x="14" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="34" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="14" y="36" width="36" height="14" rx="4" fill="#3B5BFF"/></svg>Форточка</a></header>
+<main>
+<h1>Подключим за 3 шага</h1>
+<div class="tabs" role="tablist" aria-label="Устройство">
+<button type="button" role="tab" data-p="android" aria-selected="true">Android</button><button type="button" role="tab" data-p="ios" aria-selected="false">iPhone</button><button type="button" role="tab" data-p="windows" aria-selected="false">Windows</button><button type="button" role="tab" data-p="linux" aria-selected="false">Linux</button>
+</div>
+<ol class="wiz">
+<li id="s1" class="active">
+<h2><span class="n">1</span>Установите приложение</h2>
+<p class="welcome" id="welcome" hidden></p>
+<div class="only-install"><div class="plat on" data-p="android">
+<ol class="steps">
+<li><b>Установите Happ</b><p>Бесплатное приложение Happ, через него работает Форточка.</p><a class="dl" href="https://play.google.com/store/apps/details?id=com.happproxy">Открыть в Google Play</a><p class="help">Google Play не открывается? Скачайте файл и установите его: разрешите установку из этого источника, когда телефон спросит.</p><a class="dl" href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk">Скачать Happ.apk</a></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите Android и нажмите «Добавить подписку». Happ откроется сам, подписка добавится.</p><p class="help">Ничего не открылось? В кабинете: «Подписка» → «Копировать ссылку». В Happ нажмите «+» вверху справа → «Вставить из буфера обмена».</p></li>
+<li><b>Включите</b><p>В Happ выберите сервер в списке и нажмите большую круглую кнопку. Появится «Подключен» — готово. Сервер не подключается? Выберите другой.</p></li>
+</ol>
+</div>
+
+<div class="plat" data-p="ios">
+<ol class="steps">
+<li><b>Установите Karing</b><p>Бесплатное приложение Karing из App Store. При первом запуске разрешите добавление конфигурации и введите код-пароль телефона.</p><a class="dl" href="https://apps.apple.com/ru/app/karing/id6472431552">Открыть в App Store</a><p class="help">Happ в российском App Store нет, поэтому на iPhone берём Karing.</p></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите iOS и нажмите «Добавить подписку». Откроется Karing и добавит подписку.</p><p class="help">Не открылось? В кабинете: «Подписка» → «Копировать ссылку». В Karing нажмите «+» и вставьте ссылку.</p></li>
+<li><b>Включите</b><p>На главном экране Karing нажмите кнопку подключения. Сервер не подключается? Выберите другой.</p></li>
+</ol>
+</div>
+
+<div class="plat" data-p="windows">
+<ol class="steps">
+<li><b>Установите Happ для Windows</b><p>Скачайте установщик (Windows 10 и 11, 64 бит) и запустите его.</p><a class="dl" href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe">Скачать Happ для Windows</a><p class="help">Не подошёл? Запасной вариант — FlClashX, он работает так же.</p><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-windows-amd64-setup.exe">Скачать FlClashX</a></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите Windows и нажмите «Добавить подписку». Приложение откроется, подписка добавится сама.</p><p class="help">Ничего не произошло? В кабинете: «Подписка» → «Копировать ссылку». В приложении добавьте подписку из буфера обмена.</p></li>
+<li><b>Включите</b><p>В главном разделе нажмите большую кнопку включения в центре. Не забудьте выбрать сервер в списке. Не подключается? Выберите другой сервер.</p></li>
+</ol>
+</div>
+
+<div class="plat" data-p="linux">
+<ol class="steps">
+<li><b>Установите FlClashX</b><p>Выберите свой вариант. Для Debian и Ubuntu:</p><code>sudo apt install ./FlClashX-linux-amd64.deb</code><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-amd64.deb">amd64 (.deb)</a><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-arm64.deb">arm64 (.deb)</a><p>Для Fedora:</p><code>sudo dnf install ./FlClashX-linux-amd64.rpm</code><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-amd64.rpm">amd64 (.rpm)</a><p>Любой дистрибутив, без установки:</p><code>chmod +x FlClashX-linux-amd64.AppImage
+./FlClashX-linux-amd64.AppImage</code><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-amd64.AppImage">amd64 (AppImage)</a></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите Linux и нажмите «Добавить подписку».</p><p class="help">Ничего не произошло? В кабинете: «Подписка» → «Копировать ссылку». В FlClashX откройте «Профили», нажмите «+», выберите «URL», вставьте ссылку и нажмите «Отправить».</p></li>
+<li><b>Включите</b><p>Выберите добавленный профиль и включите подключение. Не подключается? Выберите другой сервер.</p></li>
+</ol>
+</div>
+</div>
+<div class="back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><div><b>После установки приложения вернитесь сюда</b><span>Эта страница запомнит, где вы остановились.</span></div></div>
+<button type="button" class="go" id="done1">Приложение установлено, дальше</button>
+</li>
+<li id="s2" class="locked">
+<h2><span class="n">2</span>Зарегистрируйтесь</h2>
+<p>Почта и пароль. Пробные 3 дня включатся сами, и сразу откроется кнопка «Добавить подписку».</p>
+<a class="go" data-go href="https://app.188-227-107-27.sslip.io:8443/login">Зарегистрироваться</a>
+<button type="button" class="relink" id="back1">Приложение ещё не установлено</button>
+</li>
+<li id="s3">
+<details>
+<summary>3. Если подписка не добавилась</summary>
+<p>Бывает, что приложение не открылось само. Вот как добавить подписку вручную.</p>
+<div class="only-manual"><div class="plat on" data-p="android">
+<ol class="steps">
+<li><b>Установите Happ</b><p>Бесплатное приложение Happ, через него работает Форточка.</p><a class="dl" href="https://play.google.com/store/apps/details?id=com.happproxy">Открыть в Google Play</a><p class="help">Google Play не открывается? Скачайте файл и установите его: разрешите установку из этого источника, когда телефон спросит.</p><a class="dl" href="https://github.com/Happ-proxy/happ-android/releases/latest/download/Happ.apk">Скачать Happ.apk</a></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите Android и нажмите «Добавить подписку». Happ откроется сам, подписка добавится.</p><p class="help">Ничего не открылось? В кабинете: «Подписка» → «Копировать ссылку». В Happ нажмите «+» вверху справа → «Вставить из буфера обмена».</p></li>
+<li><b>Включите</b><p>В Happ выберите сервер в списке и нажмите большую круглую кнопку. Появится «Подключен» — готово. Сервер не подключается? Выберите другой.</p></li>
+</ol>
+</div>
+
+<div class="plat" data-p="ios">
+<ol class="steps">
+<li><b>Установите Karing</b><p>Бесплатное приложение Karing из App Store. При первом запуске разрешите добавление конфигурации и введите код-пароль телефона.</p><a class="dl" href="https://apps.apple.com/ru/app/karing/id6472431552">Открыть в App Store</a><p class="help">Happ в российском App Store нет, поэтому на iPhone берём Karing.</p></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите iOS и нажмите «Добавить подписку». Откроется Karing и добавит подписку.</p><p class="help">Не открылось? В кабинете: «Подписка» → «Копировать ссылку». В Karing нажмите «+» и вставьте ссылку.</p></li>
+<li><b>Включите</b><p>На главном экране Karing нажмите кнопку подключения. Сервер не подключается? Выберите другой.</p></li>
+</ol>
+</div>
+
+<div class="plat" data-p="windows">
+<ol class="steps">
+<li><b>Установите Happ для Windows</b><p>Скачайте установщик (Windows 10 и 11, 64 бит) и запустите его.</p><a class="dl" href="https://github.com/Happ-proxy/happ-desktop/releases/latest/download/setup-Happ.x64.exe">Скачать Happ для Windows</a><p class="help">Не подошёл? Запасной вариант — FlClashX, он работает так же.</p><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-windows-amd64-setup.exe">Скачать FlClashX</a></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите Windows и нажмите «Добавить подписку». Приложение откроется, подписка добавится сама.</p><p class="help">Ничего не произошло? В кабинете: «Подписка» → «Копировать ссылку». В приложении добавьте подписку из буфера обмена.</p></li>
+<li><b>Включите</b><p>В главном разделе нажмите большую кнопку включения в центре. Не забудьте выбрать сервер в списке. Не подключается? Выберите другой сервер.</p></li>
+</ol>
+</div>
+
+<div class="plat" data-p="linux">
+<ol class="steps">
+<li><b>Установите FlClashX</b><p>Выберите свой вариант. Для Debian и Ubuntu:</p><code>sudo apt install ./FlClashX-linux-amd64.deb</code><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-amd64.deb">amd64 (.deb)</a><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-arm64.deb">arm64 (.deb)</a><p>Для Fedora:</p><code>sudo dnf install ./FlClashX-linux-amd64.rpm</code><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-amd64.rpm">amd64 (.rpm)</a><p>Любой дистрибутив, без установки:</p><code>chmod +x FlClashX-linux-amd64.AppImage
+./FlClashX-linux-amd64.AppImage</code><a class="dl" href="https://github.com/pluralplay/FlClashX/releases/latest/download/FlClashX-linux-amd64.AppImage">amd64 (AppImage)</a></li>
+<li><b>Добавьте подписку</b><p>В кабинете на главной нажмите «Подключить устройство», выберите Linux и нажмите «Добавить подписку».</p><p class="help">Ничего не произошло? В кабинете: «Подписка» → «Копировать ссылку». В FlClashX откройте «Профили», нажмите «+», выберите «URL», вставьте ссылку и нажмите «Отправить».</p></li>
+<li><b>Включите</b><p>Выберите добавленный профиль и включите подключение. Не подключается? Выберите другой сервер.</p></li>
+</ol>
+</div>
+</div>
+</details>
+</li>
+</ol>
+<p class="help">Не получилось? Напишите на <a href="mailto:parawor1d55@gmail.com">parawor1d55@gmail.com</a>: какое у вас устройство и что видно на экране. Поможем.</p>
+</main>
+</div>
+<script>
+(()=>{
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches,K="fortochka_start";
+const get=()=>{try{return JSON.parse(localStorage.getItem(K)||"{}")}catch{return {}}},set=o=>{try{localStorage.setItem(K,JSON.stringify({...get(),...o}))}catch{}};
+const camp=(new URLSearchParams(location.search).get("c")||"site").replace(/[^a-zA-Z0-9_-]/g,"").slice(0,64)||"site";  // метка источника → campaign в кабинете
+document.querySelectorAll("a[data-go]").forEach(a=>{const u=new URL(a.href);u.searchParams.set("campaign",camp);a.href=u});
+const ua=navigator.userAgent,pick=/android/i.test(ua)?"android":/iphone|ipad|ipod/i.test(ua)?"ios":/windows/i.test(ua)?"windows":"android";
+const tabs=[...document.querySelectorAll("[role=tab]")],panels=[...document.querySelectorAll(".plat")];
+const show=p=>{tabs.forEach(t=>t.setAttribute("aria-selected",String(t.dataset.p===p)));panels.forEach(x=>x.classList.toggle("on",x.dataset.p===p))};
+tabs.forEach(t=>t.onclick=()=>show(t.dataset.p));show(pick);
+const s1=document.getElementById("s1"),s2=document.getElementById("s2"),done1=document.getElementById("done1"),welcome=document.getElementById("welcome");
+const render=()=>{const two=get().step===2;
+  s1.classList.toggle("done",two);s1.classList.toggle("active",!two);s2.classList.toggle("locked",!two);s2.classList.toggle("active",two);
+  document.querySelector("#s1 .only-install").hidden=two;document.querySelector("#s1 .back").hidden=two;done1.hidden=two;
+  s1.querySelector("h2 .n").textContent=two?"✓":"1"};
+const go=n=>{set({step:n,left:0});welcome.hidden=true;done1.classList.remove("ready");render();(n===2?s2:s1).scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"})};
+done1.onclick=()=>go(2);document.getElementById("back1").onclick=()=>go(1);
+document.querySelectorAll("#s1 a.dl").forEach(a=>a.addEventListener("click",()=>set({left:1})));  // ушёл в магазин
+const back=()=>{if(document.visibilityState==="visible"&&get().left&&get().step!==2){welcome.textContent="С возвращением! Приложение установлено? Тогда идём дальше.";welcome.hidden=false;done1.classList.add("ready")}};
+document.addEventListener("visibilitychange",back);addEventListener("pageshow",back);
+render();if(get().step===2){welcome.textContent="С возвращением! Приложение установлено, осталась регистрация.";welcome.hidden=false}
+})();
+</script>
+</body>
+</html>
