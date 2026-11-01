@@ -271,5 +271,46 @@ addEventListener("pointermove",e=>{const r=pal.getBoundingClientRect(),dx=e.clie
 btn&&btn.addEventListener("pointerdown",()=>{pal.classList.add("happy");setTimeout(()=>pal.classList.remove("happy"),1400)});
 })();
 </script>
+<script>
+// Тихий замер связи с нашими серверами из сети посетителя (docs/task-brief-netcheck.md). Разбор — scripts/netcheck.py.
+// Нода на Reality отвечает чужим сертификатом: быстрая ошибка = доступна; закрытый путь видно только как молчание до таймаута.
+(function () {
+  if (!window.fetch || !window.AbortController) return;
+  try { if (sessionStorage.getItem("fnc")) return; sessionStorage.setItem("fnc", "1"); } catch (e) {}
+  var BASES = ["https://app.netfortochka.ru:8443", "https://app.45-133-19-70.sslip.io:8443"]; // второй — старый адрес toronto: если первый у оператора закрыт, отчёт всё равно дойдёт
+  var WAIT = 8000;
+  function hit(url, cors) {
+    var c = new AbortController(), t0 = Date.now(), tm = setTimeout(function () { c.abort(); }, WAIT);
+    return fetch(url + (url.indexOf("?") < 0 ? "?" : "&") + "cb=" + t0, { mode: cors ? "cors" : "no-cors", cache: "no-store", credentials: "omit", signal: c.signal })
+      .then(function (r) { return cors ? r.json() : null; })
+      .then(function (body) { return { r: "ok", ms: Date.now() - t0, body: body }; },
+            function () { return { r: c.signal.aborted ? "timeout" : "err", ms: Date.now() - t0 }; })
+      .then(function (x) { clearTimeout(tm); return x; });
+  }
+  function run() {
+    var res = {}, base;
+    hit(BASES[0] + "/nc/targets", true).then(function (a) {
+      res.cab = [a.r, a.ms];
+      if (a.r === "ok" && a.body) return (base = BASES[0], a.body);
+      return hit(BASES[1] + "/nc/targets", true).then(function (b) {
+        res.cab2 = [b.r, b.ms];
+        if (b.r === "ok" && b.body) return (base = BASES[1], b.body);
+      });
+    }).then(function (targets) {
+      if (!targets) return; // до нас не достучаться вовсе: отчёт отправить некуда
+      targets.ya = "https://ya.ru/favicon.ico"; // контроль: если и он молчит, у человека нет сети
+      var ids = Object.keys(targets);
+      return Promise.all(ids.map(function (id) { return hit(targets[id], false); })).then(function (all) {
+        all.forEach(function (x, i) { res[ids[i]] = [x.r, x.ms]; });
+        var d = { v: 1, p: location.pathname, n: (navigator.connection && navigator.connection.type) || "", r: res };
+        fetch(base + "/nc?d=" + encodeURIComponent(JSON.stringify(d)), { mode: "no-cors", credentials: "omit", keepalive: true });
+      });
+    }).catch(function () {});
+  }
+  function later() { setTimeout(run, 2000); } // после загрузки, чтобы не тормозить страницу
+  document.readyState === "complete" ? later() : window.addEventListener("load", later);
+})();
+</script>
+
 </body>
 </html>
