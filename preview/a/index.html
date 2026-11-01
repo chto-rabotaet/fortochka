@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Набросок А — Чек на сегодня</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Mono&family=Golos+Text:wght@500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--table:#D8DEE6;--paper:#FCFCF8;--ink:#1B1C1E;--ink2:#5D6168;--cobalt:#3B5BFF;--cobalt-deep:#2A44D6;--ok:#13804F;
+  --mono:"PT Mono",ui-monospace,monospace;--sans:"Golos Text",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;background:var(--table);color:var(--ink);font:500 16px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+::selection{background:var(--cobalt);color:#fff}
+a{color:var(--cobalt)}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:3px;border-radius:6px}
+.bar{display:flex;justify-content:space-between;align-items:center;max-width:520px;margin:0 auto;padding:14px 16px}
+.site{display:inline-flex;align-items:center;gap:8px;font:800 17px/1 var(--sans);letter-spacing:-.02em}
+.site svg{width:24px;height:24px}
+.enter{font:600 15px/1 var(--sans);color:var(--ink);text-decoration:none;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,.6)}
+main{display:flex;flex-direction:column;align-items:center;padding:6px 16px 40px}
+
+/* чек: термобумага с рваными краями */
+.receipt{position:relative;width:min(372px,100%);background:var(--paper);padding:26px 22px 30px;font:400 14.5px/1.55 var(--mono);
+  filter:drop-shadow(0 18px 28px rgba(27,28,30,.16));
+  --tooth:radial-gradient(circle at 8px 0,transparent 7px,#000 7.5px) 0 0/16px 100%;
+  -webkit-mask:linear-gradient(#000,#000) 0 10px/100% calc(100% - 20px) no-repeat,radial-gradient(circle at 8px 0,transparent 0,transparent 0) 0 0/0 0,
+    conic-gradient(from -45deg at 50% 10px,#000 90deg,transparent 0) 0 0/16px 10px repeat-x,
+    conic-gradient(from 135deg at 50% 0,#000 90deg,transparent 0) 0 100%/16px 10px repeat-x;
+  mask:linear-gradient(#000,#000) 0 10px/100% calc(100% - 20px) no-repeat,
+    conic-gradient(from -45deg at 50% 10px,#000 90deg,transparent 0) 0 0/16px 10px repeat-x,
+    conic-gradient(from 135deg at 50% 0,#000 90deg,transparent 0) 0 100%/16px 10px repeat-x}
+.c{text-align:center}
+.shop{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:10px}
+.shop svg{width:58px;height:58px}
+.shop b{font:400 22px/1 var(--mono);letter-spacing:.18em}
+.motto{margin:0}
+.rule{border:0;border-top:1.5px dashed var(--ink);opacity:.55;margin:12px 0}
+.meta{display:flex;justify-content:space-between;color:var(--ink2);font-size:13.5px}
+dl{margin:0}
+.row{display:flex;align-items:baseline;gap:6px;margin:0}
+.row dt{flex:none}
+.row .lead{flex:1;border-bottom:1.5px dotted rgba(27,28,30,.45);transform:translateY(-4px)}
+.row dd{margin:0;flex:none}
+.row dd.ok{color:var(--ok)}
+.sub{color:var(--ink2);font-size:13.5px;margin:2px 0 6px}
+.total{display:flex;justify-content:space-between;align-items:baseline;font:400 30px/1.1 var(--mono);letter-spacing:-.02em;margin:6px 0 2px}
+.thanks{margin:16px 0 0;color:var(--ink2);font-size:13.5px}
+
+/* оплата под чеком */
+.pay{width:min(372px,100%);display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:22px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;border-radius:18px;background:var(--cobalt);color:#fff;text-decoration:none;font:700 18px/1.2 var(--sans);letter-spacing:-.01em;
+  box-shadow:0 1px 2px rgba(0,0,0,.12),0 10px 24px rgba(27,28,30,.18);transition:background .2s,transform .2s}
+.btn:hover{background:var(--cobalt-deep)}.btn:active{transform:scale(.985)}
+.note{margin:0;font-size:15px;color:var(--ink2);text-align:center}
+
+/* печать: чек «выезжает» из принтера один раз */
+@media (prefers-reduced-motion:no-preference){
+  .receipt{animation:print 1.6s cubic-bezier(.3,.1,.2,1) both}
+  .pay{animation:fade .6s ease-out 1.4s both}
+}
+@keyframes print{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}}
+</style>
+</head>
+<body>
+<header class="bar"><span class="site"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="12" fill="#fff" stroke="#3B5BFF" stroke-width="5"/><rect x="14" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="34" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="14" y="36" width="36" height="14" rx="4" fill="#3B5BFF"/></svg>Форточка</span><a class="enter" href="#">Войти</a></header>
+<main>
+<article class="receipt" aria-label="Чек на сегодня">
+<div class="shop">
+<svg viewBox="0 0 120 120" aria-hidden="true"><rect x="9" y="9" width="102" height="102" rx="22" fill="none" stroke="#1B1C1E" stroke-width="5"/><rect x="21" y="21" width="34" height="36" rx="8" fill="none" stroke="#1B1C1E" stroke-width="4"/><rect x="65" y="21" width="34" height="36" rx="8" fill="none" stroke="#1B1C1E" stroke-width="4"/><circle cx="38" cy="41" r="6" fill="#1B1C1E"/><circle cx="82" cy="41" r="6" fill="#1B1C1E"/><rect x="21" y="67" width="78" height="32" rx="8" fill="none" stroke="#1B1C1E" stroke-width="4"/><path d="M40 80q20 12 40 0" fill="none" stroke="#1B1C1E" stroke-width="4" stroke-linecap="round"/></svg>
+<b>ФОРТОЧКА</b>
+<p class="motto">интернет как раньше</p>
+</div>
+<div class="meta"><span>Чек на сегодня</span><span>01.11 15:00</span></div>
+<hr class="rule">
+<dl>
+<div class="row"><dt>YouTube</dt><span class="lead"></span><dd class="ok">открывается</dd></div>
+<div class="row"><dt>Instagram*</dt><span class="lead"></span><dd class="ok">открывается</dd></div>
+<div class="row"><dt>Telegram</dt><span class="lead"></span><dd class="ok">открывается</dd></div>
+<div class="row"><dt>ChatGPT</dt><span class="lead"></span><dd class="ok">открывается</dd></div>
+</dl>
+<p class="sub">Проверено сегодня в 15:00 с телефона в Петербурге. Без Форточки не открылся ни один.</p>
+<hr class="rule">
+<dl>
+<div class="row"><dt>Первые 3 дня</dt><span class="lead"></span><dd>0 ₽</dd></div>
+<div class="row"><dt>Потом месяц</dt><span class="lead"></span><dd>199 ₽</dd></div>
+<div class="row"><dt>Или 3 месяца</dt><span class="lead"></span><dd>499 ₽</dd></div>
+<div class="row"><dt>Или год</dt><span class="lead"></span><dd>1690 ₽</dd></div>
+<div class="row"><dt>Устройств</dt><span class="lead"></span><dd>до 3</dd></div>
+</dl>
+<hr class="rule">
+<div class="total"><span>ИТОГО</span><span>0 ₽</span></div>
+<p class="sub">сегодня, карта не нужна</p>
+<p class="thanks c">Спасибо, что проветриваете с нами!</p>
+</article>
+<div class="pay">
+<a class="btn" href="#">Попробовать 3 дня бесплатно</a>
+<p class="note">Подключение за 2 минуты. Оплата потом по СБП.</p>
+</div>
+</main>
+</body>
+</html>
