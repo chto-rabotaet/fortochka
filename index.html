@@ -50,6 +50,10 @@ a{color:var(--cobalt);text-underline-offset:3px}
 .bar .site{color:var(--ink);display:inline-flex;align-items:center;gap:8px}
 .logo{width:22px;height:22px;flex:none}
 .live{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.bar .right{display:inline-flex;align-items:center;gap:12px}
+.enter{font:600 14px/1 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);text-decoration:none;border:1.5px solid currentColor;border-radius:999px;padding:8px 14px;white-space:nowrap}
+.enter:hover{color:var(--cobalt)}
+@media (max-width:380px){.live{display:none}}
 .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green-dot)}
 
 h1{font:800 clamp(34px,9.4vw,64px)/1.02 var(--sans);letter-spacing:-.035em;margin:12px 0 16px;text-wrap:balance}
@@ -169,7 +173,7 @@ footer p{margin:0 0 8px;max-width:70ch}
 <symbol id="i-ai" viewBox="0 0 36 36"><rect width="36" height="36" rx="11" fill="#111214"/><path d="M18 9.5c1.2 4.6 3.9 7.3 8.5 8.5-4.6 1.2-7.3 3.9-8.5 8.5-1.2-4.6-3.9-7.3-8.5-8.5 4.6-1.2 7.3-3.9 8.5-8.5Z" fill="#fff"/></symbol>
 </svg>
 <div class="wrap">
-<header class="bar"><span class="site"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="12" fill="#fff" stroke="#3B5BFF" stroke-width="5"/><rect x="14" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="34" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="14" y="36" width="36" height="14" rx="4" fill="#3B5BFF"/></svg>Форточка</span><span class="live">31 октября, 21:00</span></header>
+<header class="bar"><span class="site"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="6" width="52" height="52" rx="12" fill="#fff" stroke="#3B5BFF" stroke-width="5"/><rect x="14" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="34" y="14" width="16" height="16" rx="4" fill="#BFD3FF"/><rect x="14" y="36" width="36" height="14" rx="4" fill="#3B5BFF"/></svg>Форточка</span><span class="right"><span class="live">31 октября, 21:00</span><a class="enter" href="https://app.netfortochka.ru:8443/login?signin">Войти</a></span></header>
 <main>
 <h1><span class="w" style="--k:0">Что</span> <span class="w" style="--k:1">не</span> <span class="w" style="--k:2">работает</span> <span class="w" style="--k:3">в</span> <span class="w" style="--k:4">России</span> <span class="w" style="--k:5">сегодня</span></h1>
 <section class="board" aria-label="Состояние сервисов">
