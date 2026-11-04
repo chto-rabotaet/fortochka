@@ -392,7 +392,13 @@ done1.onclick=()=>go(2);document.getElementById("back1").onclick=()=>go(1);
 document.querySelectorAll("#s1 a.dl").forEach(a=>a.addEventListener("click",()=>set({left:1})));  // ушёл в магазин
 const back=()=>{if(document.visibilityState==="visible"&&get().left&&get().step!==2){welcome.textContent="С возвращением! Приложение установлено? Тогда идём дальше.";welcome.hidden=false;done1.classList.add("ready")}};
 document.addEventListener("visibilitychange",back);addEventListener("pageshow",back);
-render();if(get().step===2){welcome.textContent="С возвращением! Приложение установлено, осталась регистрация.";welcome.hidden=false}
+const bot=new URLSearchParams(location.search).get("from")==="bot";  // пришёл из бота: пробный уже есть, регистрация не нужна
+if(bot){s2.querySelector("h2").lastChild.textContent="Добавьте подписку";
+  s2.querySelector("p").textContent="Пробные 3 дня у вас уже идут, регистрироваться не нужно. Вернитесь в бота и нажмите «Подключиться»: там ваша ссылка для приложения.";
+  const a=s2.querySelector("a[data-go]");a.href="https://t.me/fortochka_net_bot";a.textContent="Вернуться в бота";
+  document.querySelector("#s3 p").textContent="Бывает, что приложение не открылось само. В боте нажмите «Подключиться» и скопируйте ссылку. В приложении нажмите «+» и вставьте её из буфера обмена.";
+  document.querySelector("#s3 .only-manual").hidden=true}
+render();if(get().step===2){welcome.textContent=bot?"С возвращением! Приложение установлено, осталось добавить подписку.":"С возвращением! Приложение установлено, осталась регистрация.";welcome.hidden=false}
 })();
 </script>
 <script>
